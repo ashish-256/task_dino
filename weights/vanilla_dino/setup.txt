@@ -1,0 +1,1 @@
+upload the vanilla_dino weights "checkpoint.pth" file here
