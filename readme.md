@@ -118,7 +118,7 @@ Key architecture/training settings (defaults in scripts): ViT-Small backbone (21
 Generalization is measured by training a linear classifier on frozen CLS-token embeddings, evaluated across **seven glaucoma benchmarks**.
 
 **Data preparation for evaluation** — two linear-probe regimes:
-- **REFUGE (train split, ~1.2K images)** — low-data regime. Only `crop.py` is applied (no quality filtering).
+- **REFUGE (train split, ~1.2K images)** — low-data regime.
 - **AIROGS (~78K images)** — large-scale regime. `crop.py` followed by `quality.py` (QuickQual filtering) is applied to obtain the final, quality-filtered set of ~78K images.
 
 **Evaluation datasets:** REFUGE (test split), ACRIMA, LAG, ORIGA, FIVES, PAPILA, CHAKSU.

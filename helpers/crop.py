@@ -4,16 +4,19 @@ import numpy as np
 from pathlib import Path
 
 
-def circular_crop(image_path: str, output_dir: str, padding: int = 0):
+def circular_crop(image_path: str, output_dir: str, padding: int = 0,
+                   resize_to: int = 1024):
     """
     Detect the fundus circle, mask everything outside it to black,
-    and save a tight square crop around it.
+    save a tight square crop around it, and resize to a fixed size.
 
     Parameters
     ----------
     image_path  : path to the input fundus image
     output_dir  : directory to save the cropped image
     padding     : extra pixels to expand the detected circle radius (default 0)
+    resize_to   : output side length in pixels for the final square image
+                  (default 1024). Set to None to skip resizing.
     """
     img = cv2.imread(image_path)
     if img is None:
@@ -45,12 +48,17 @@ def circular_crop(image_path: str, output_dir: str, padding: int = 0):
     y2 = min(cy + r, h)
     cropped = masked[y1:y2, x1:x2]
 
-    # ── Save ─────────────────────────────────────────────────────────────────
+    # ── Resize to fixed output size ───────────────────────────────────────────
+    if resize_to is not None:
+        current_side = cropped.shape[0]
+        interp = cv2.INTER_AREA if current_side > resize_to else cv2.INTER_CUBIC
+        cropped = cv2.resize(cropped, (resize_to, resize_to), interpolation=interp)
+
+    # ── Save with the original filename, in the output directory ─────────────
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    stem     = Path(image_path).stem
-    out_path = os.path.join(output_dir, stem + "_cropped.jpg")
+    out_path = os.path.join(output_dir, Path(image_path).name)
     cv2.imwrite(out_path, cropped)
-    print(f"Saved → {out_path}  (centre=({cx},{cy}), r={r})")
+    print(f"Saved → {out_path}  (centre=({cx},{cy}), r={r}, size={cropped.shape[1]}x{cropped.shape[0]})")
 
     return cropped
 
@@ -63,6 +71,9 @@ if __name__ == "__main__":
     p.add_argument("--output_dir",  type=str, required=True)
     p.add_argument("--padding",     type=int, default=0,
                    help="Extra pixels added to detected radius (default 0)")
+    p.add_argument("--resize_to",   type=int, default=1024,
+                   help="Output square side length in pixels (default 1024, use 0 to skip resizing)")
     args = p.parse_args()
 
-    circular_crop(args.image_path, args.output_dir, args.padding)
+    resize_to = None if args.resize_to == 0 else args.resize_to
+    circular_crop(args.image_path, args.output_dir, args.padding, resize_to)
