@@ -135,4 +135,4 @@ python fundus_dino/eval_linear.py \
 ## Acknowledgements
 This work was carried out at the Spectrum Lab, Department of Electrical Engineering, Indian Institute of Science (IISc), Bengaluru, under the supervision of Prof. Chandra Sekhar Seelamantula.
 
-Funding support from **ZEISS India** and the **Kotak-IISc AI/ML Centre** is gratefully acknowledged. We also acknowledge the use of large language models (LLMs) for minor language refinement and rephrasing during the preparation of this manuscript.
+Funding support from **ZEISS India** and the **Kotak-IISc AI/ML Centre** is gratefully acknowledged.
