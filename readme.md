@@ -133,7 +133,6 @@ python fundus_dino/eval_linear.py \
 ```
 
 ## 🏛️ Citation
-If you use this code, please cite:
 Ashish Kumar Meena and Chandra Sekhar Seelamantula, 
 "Augmentation Strategy for DINO in Glaucoma Classification," 2026.
 
