@@ -6,7 +6,7 @@ The method uses an **InfoMin-guided, asymmetric teacher–student crop assignmen
 
 ![Teacher and student crop assignment](./helpers/images/fig3_teacher_student_crops.png)
 
-## Project Structure
+## 👁️ Project Structure
 ```
 ├── dataset/
 │   ├── train/         # circular-cropped fundus images (glaucoma/normal)
@@ -30,7 +30,7 @@ The method uses an **InfoMin-guided, asymmetric teacher–student crop assignmen
 └── readme.md
 ```
 
-## Setup
+## 🛠️ Setup
 Create and activate a dedicated conda environment named `taskdino`, then install dependencies:
  
 ```bash
@@ -43,11 +43,11 @@ pip install -r requirements.txt
  
 All commands below assume the `taskdino` environment is active.
 
-## Weights
+## 🤗 Weights
 Pretrained DINO checkpoints are not included in this repo. Download them and place inside `weights/task_dino/` and `weights/vanilla_dino/`:
 [OSF project link](https://osf.io/yejrv/overview?view_only=2787ef7ecf3646d896f34bb10dacdfe3)
 
-## Data Preparation
+## 🧩 Data Preparation
 Raw fundus images are turned into training-ready triplets (`train`, `train_mask`, `train_paint`) through the `helpers/` scripts, run in the following order. The pipeline is designed as a **funnel with filtering gates**: an image only proceeds to the next stage if it survives the current one, and any image that is dropped at any stage is discarded. This keeps `dataset/train`, `dataset/train_mask`, and `dataset/train_paint` in lockstep — **all three folders must end up with the same number of files**, with every image having a matching mask and paint counterpart.
 
 **Naming convention:** for a source image `image_name.jpg`, the pipeline produces:
@@ -101,7 +101,7 @@ After all five steps, `dataset/train`, `dataset/train_mask`, and `dataset/train_
 
 **Pretraining datasets (pretraining corpus):** AIROGS, FIVES, LAG, CATARACT, ORIGA, HYGD
 
-## Pretraining
+## 🎲 Pretraining
 Task-aware DINO (teacher: 2 vessel-free, disc-centered crops; student: 3 multi-scale disc-containing crops):
 ```bash
 python fundus_dino/task_dino.py --data_path ./dataset --output_dir ./output_dir
@@ -114,14 +114,14 @@ python fundus_dino/vanilla_dino.py --data_path ./dataset --output_dir ./output_d
 
 Key architecture/training settings (defaults in scripts): ViT-Small backbone (21M parameters, initialized from scratch), patch size 16, 4096-d projection head, 200 epochs, batch size 256, base LR 5e-4, student/teacher temperature 0.1/0.04.
 
-## Evaluation
+## 🎯 Evaluation
 Generalization is measured by training a linear classifier on frozen CLS-token embeddings, evaluated across **seven glaucoma benchmarks**.
 
 **Data preparation for evaluation** — two linear-probe regimes:
 - **REFUGE (train split, ~1.2K images)** — low-data regime.
 - **AIROGS (~78K images)** — large-scale regime. `crop.py` followed by `quality.py` (QuickQual filtering) is applied to obtain the final, quality-filtered set of ~78K images.
 
-**Evaluation datasets:** REFUGE (test split), ACRIMA, LAG, ORIGA, FIVES, PAPILA, CHAKSU.
+** Evaluation datasets:** REFUGE (test split), ACRIMA, LAG, ORIGA, FIVES, PAPILA, CHAKSU.
 
 Linear probing is run on frozen CLS-token features, reporting AUROC with 95% DeLong confidence intervals for each benchmark:
 ```bash
@@ -132,7 +132,12 @@ python fundus_dino/eval_linear.py \
     --evaluate
 ```
 
-## Acknowledgements
+## 🏛️ Citation
+If you use this code, please cite:
+Ashish Kumar Meena and Chandra Sekhar Seelamantula, 
+"Augmentation Strategy for DINO in Glaucoma Classification," 2026.
+
+## 🙏 Acknowledgements
 This work was carried out at the Spectrum Lab, Department of Electrical Engineering, Indian Institute of Science (IISc), Bengaluru, under the supervision of Prof. Chandra Sekhar Seelamantula.
 
 Funding support from **ZEISS India** and the **Kotak-IISc AI/ML Centre** is gratefully acknowledged.
