@@ -134,9 +134,9 @@ python fundus_dino/eval_linear.py \
 
 ## 🏛️ Citation
 Ashish Kumar Meena and Chandra Sekhar Seelamantula, 
-"Augmentation Strategy for DINO in Glaucoma Classification," 2026.
+"Augmentation Strategy for DINO in Glaucoma Classification," 2026. [To Appear]
 
 ## 🙏 Acknowledgements
 This work was carried out at the Spectrum Lab, Department of Electrical Engineering, Indian Institute of Science (IISc), Bengaluru, under the supervision of Prof. Chandra Sekhar Seelamantula.
 
-Funding support from **ZEISS India** and the **Kotak-IISc AI/ML Centre** is gratefully acknowledged.
+Funding support from **ZEISS India** and **Kotak-IISc AI/ML Centre** is gratefully acknowledged.
